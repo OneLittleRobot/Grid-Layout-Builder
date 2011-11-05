@@ -1,0 +1,13 @@
+.DS_Store
+
+# Thumbnails
+._*
+.Spotlight-V100
+.Trashes
+
+.actionScriptProperties
+.flexProperties
+.metadata
+.project
+.settings
+bin-debug

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="540" creationComplete="group1_creationCompleteHandler(event)"
+		 styleName="GridBuilder">
+	<fx:Style source="styles.css"/>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.events.TextOperationEvent;
+
+			protected function verticalOnOff_clickHandler(event:MouseEvent):void
+			{
+				
+				trace(verticalOnOff.selected);
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			public static const MAKE:String = 'make';
+			public static const UPDATE:String = 'update';
+			
+			[Bindable]
+			public var totalText:String = "Width:950";
+			
+			/*
+			[Bindable]
+			public var columnsText:String = "24";
+			
+			[Bindable]
+			public var columnsWidthText:String = "30";
+			
+			[Bindable]
+			public var gapText:String = "10";
+			 
+			[Bindable]
+			public var gutterText:String = "5";
+			
+			[Bindable]
+			public var verticalText:String = "18";
+			
+			[Bindable]
+			public var heightText:String = "800";			
+			*/
+			[Bindable]
+			public var gridColumns:int=24;
+			[Bindable]
+			public var gridColumnWidth:int=30;
+			[Bindable]
+			public var gridGap:int=10;
+			[Bindable]
+			public var gridGutter:int=5;
+			[Bindable]
+			public var totalWidth:int=960;
+			[Bindable]
+			public var gridVerticalGap:int=18;
+			[Bindable]
+			public var totalHeight:int=800;
+			[Bindable]
+			public var hPositions:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			public var vPositions:ArrayCollection = new ArrayCollection();		
+			
+			public function get useVerticalGrid():Boolean{
+				return verticalOnOff.selected;
+				
+			}
+			public function set useVerticalGrid(value:Boolean):void{
+				 verticalOnOff.selected = value;
+				
+			}
+		
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				makeGrid();
+			}
+			
+			protected function handleInputChange(event:TextOperationEvent):void
+			{
+				
+				makeGrid()
+				
+				
+				
+			}
+			protected function makeGrid():void{
+				//useVerticalGrid = verticalOnOff.selected;
+				gridColumns = parseInt(columns.text);
+				gridColumnWidth = parseInt(columnWidth.text);
+				gridGap = parseInt(columnGap.text);
+				gridGutter = parseInt(gutter.text);
+				// TODO Auto-generated method stub			
+				totalWidth = (gridColumnWidth*gridColumns) + (gridGap* (gridColumns-1)) + (gridGutter*2); 
+				totalHeight = parseInt(documentHeight.text);
+				totalText = "Width: "+ totalWidth;
+				
+				hPositions.removeAll();
+				vPositions.removeAll();
+				gridVerticalGap = parseInt(vertical.text);
+				
+				var n:int = gridGutter;
+				hPositions.addItem(n);
+				
+				for(var i:int = 0;i < gridColumns; i++){
+					n+= gridColumnWidth;
+					hPositions.addItem(n);
+					if(i != gridColumns-1){
+						n+= gridGap;
+						hPositions.addItem(n);
+					}
+				}
+				
+				if(gridVerticalGap>0){
+					var h:Number=0;
+					while(h < totalHeight){
+						h+=gridVerticalGap;
+						vPositions.addItem(h);
+					}			
+				}
+			}
+			protected function handleMake(event:MouseEvent):void{
+				dispatchEvent(new Event(MAKE));
+			}
+			protected function handleUpdate(event:MouseEvent):void{
+				dispatchEvent(new Event(UPDATE));
+			}
+		]]>
+	</fx:Script>
+	<s:BitmapImage smooth="true"
+				   source="@Embed('/assets/background_s1.png')"
+				   x="0"
+				   y="0"/> 
+	<s:VGroup>
+		<s:HGroup>
+			<s:Label styleName="gridInputLabel" width="80" text="Columns" />
+			<s:TextInput styleName="GridInput" id="columns" text="{gridColumns}" change="handleInputChange(event)"
+						 restrict="0-9">
+
+			</s:TextInput>
+						 
+		</s:HGroup> 
+		<s:HGroup>
+			<s:Label styleName="gridInputLabel" width="80" text="Column Width" />
+			<s:TextInput styleName="GridInput" id="columnWidth" text="{gridColumnWidth}" change="handleInputChange(event)"
+						 restrict="0-9"/>
+		</s:HGroup>
+		<s:HGroup>
+			<s:Label styleName="gridInputLabel" width="80" text="Column Gap" />
+			<s:TextInput styleName="GridInput" id="columnGap" text="{gridGap}" change="handleInputChange(event)"
+						 restrict="0-9"/>
+		</s:HGroup>		
+		<s:HGroup>
+			<s:Label styleName="gridInputLabel" width="80" text="Gutter" />
+			<s:TextInput styleName="GridInput" id="gutter" text="{gridGutter}" change="handleInputChange(event)"
+						 restrict="0-9"/>
+		</s:HGroup>
+		<s:HGroup>
+			<s:Label styleName="gridInputLabel" width="80" text="Height" />
+			<s:TextInput styleName="GridInput" id="documentHeight" text="{totalHeight}" change="handleInputChange(event)"
+						 restrict="0-9"/>
+		</s:HGroup>
+		<s:HGroup>
+			<s:Label styleName="gridInputLabel" width="80" text="Vertical" />
+			<s:TextInput styleName="GridInput" width="80" id="vertical" text="{gridVerticalGap}" change="handleInputChange(event)"
+						 restrict="0-9"/>
+			<s:CheckBox id="verticalOnOff"   click="verticalOnOff_clickHandler(event)"/>
+		
+		</s:HGroup>	
+		
+		<s:HGroup width="100%"
+				  y="5"
+				  horizontalAlign="center">
+			<s:Label styleName="gridInputLabel" width="80" text="{totalText}" />
+			<s:HGroup width="100%"
+					  y="5"
+					  horizontalAlign="center">
+				<s:Button label="make"  click="handleMake(event)"/>
+				<s:Button label="update"  click="handleUpdate(event)"/>
+		</s:HGroup>	
+		</s:HGroup>
+		
+	</s:VGroup>
+</s:Group>

@@ -1,0 +1,100 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+/* 
+----------------------------------
+FONTS
+----------------------------------
+*/
+/* start gill sans emebed */
+@font-face
+{
+	fontFamily: GillSansEmbedded;
+	fontWeight: normal;
+	fontStyle: normal;
+	src: url("../fonts/GillSans/Gill Sans.ttf");
+}
+@font-face
+{
+	fontFamily: GillSansEmbedded;
+	fontWeight: bold;
+	fontStyle: normal;
+	src: url("../fonts/GillSans/Gill Sans Bold.ttf");
+}
+@font-face
+{
+	fontFamily: GillSansEmbedded;
+	fontWeight: bold;
+	fontStyle: italic;
+	src: url("../fonts/GillSans/Gill Sans Bold Italic.ttf");
+}
+@font-face
+{
+	fontFamily: GillSansEmbedded;
+	fontWeight: normal;
+	fontStyle: italic;
+	src: url("../fonts/GillSans/Gill Sans Italic.ttf");
+}
+/* end gill sans emebed */
+
+.GridBuilder {
+	font-family: GillSansEmbedded;
+	font-anti-alias-type: advanced;
+	font-grid-fit-type: pixel;
+	font-sharpness: 100; 
+	font-thickness: 60;
+	background-color: #ffffff;
+	backgroundGradientAlphas: 1.0, 1.0;
+	backgroundGradientColors: #FFFFFF, #FFFFFF;
+}
+.ProductItem{
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+}
+.GridInput
+{
+	font-family: GillSansEmbedded;
+	font-anti-alias-type: advanced;
+	font-grid-fit-type: pixel;
+	font-sharpness: 100; 
+	font-thickness: 60;
+	width: 60;
+	
+	fontSize: 14;
+	fontWeight: bold;
+	textAlign: center;
+}
+.HistoryTitle
+{
+	fontSize: 13;
+	paddingTop: 10px;
+}
+.gridInputLabel
+{
+	fontSize: 12;
+	paddingTop: 5;
+	padding-left: 5;
+	color: #ffffff;
+}
+.HistoryPid
+{
+	fontSize: 12;
+	paddingTop: 5;
+}
+.MessageText{
+	fontSize: 14;
+	paddingTop: 5;
+	paddingLeft: 10;
+	color: #ffffff;
+}
+.BottomButtonUp
+{
+	textAlign: center;
+	verticalAlign: middle;
+	fontSize: 12;
+	color: #ffffff;
+}
+	

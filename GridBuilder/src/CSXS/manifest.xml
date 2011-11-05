@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest Version="2.0" ExtensionBundleId="uk.co.onelittlerobot.gridbuilder" 
+	ExtensionBundleVersion="0.6" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Author>
+	One Little Robot
+	</Author>
+	<ExtensionList>
+		<Extension Id="uk.co.onelittlerobot.gridbuilder.extension1" Version="1.0" />
+	</ExtensionList>
+	<ExecutionEnvironment>
+		<HostList>
+			<Host Name="PHSP" Version="12" />
+			<Host Name="PHXS" Version="12" />
+		</HostList>
+		<LocaleList>
+			<Locale Code="All" />
+		</LocaleList>
+		<RequiredRuntimeList>
+			<RequiredRuntime Name="CSXS" Version="2.0" />
+		</RequiredRuntimeList>
+	</ExecutionEnvironment>
+	
+	<DispatchInfoList>
+		<Extension Id="uk.co.onelittlerobot.gridbuilder.extension1">
+			<DispatchInfo >
+				<Resources>
+					<SwfPath>./GridBuilder.swf</SwfPath>
+				</Resources>
+				<Lifecycle>
+					<AutoVisible>true</AutoVisible>
+				</Lifecycle>
+				<UI>
+					<Type>Panel</Type>
+					<Menu>Grid Builder</Menu>
+					<Geometry>
+						<Size>							
+							<Height>200</Height>
+							<Width>250</Width>
+						</Size>
+						<MaxSize>
+							<Height>200</Height>
+							<Width>250</Width>
+						</MaxSize>
+						<MinSize>
+							<Height>200</Height>
+							<Width>250</Width>
+						</MinSize>
+					</Geometry>
+				</UI>
+			</DispatchInfo> 
+			</Extension>
+	</DispatchInfoList>
+</ExtensionManifest>

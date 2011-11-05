@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:gridbuilder="uk.co.onelittlerobot.gridbuilder.*" creationComplete="windowedapplication1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+
+			protected function handleOnUpdate(event:Event):void{
+				trace(controls.useVerticalGrid);
+				
+			}
+			
+			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
+			{
+				controls.addEventListener(GridControls.MAKE, handleOnUpdate);
+				controls.addEventListener(GridControls.UPDATE, handleOnUpdate);
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<gridbuilder:GridControls id="controls" />
+</s:WindowedApplication>

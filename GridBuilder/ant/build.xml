@@ -1,0 +1,44 @@
+<project xmlns:ac="antlib:net.sf.antcontrib" name="Deploy Product Browser Tool V0.1" default="_main">
+	<!-- replace BuildRobotLegs V0.3 with your project name but keep this text 
+	here so we know what version of the build file you started with -->
+	<property file="build.properties" />
+
+	<target name="_main" depends="create certificate,package" />
+
+		<target name="test deploy">
+			<copy file="${LOCAL_MANIFEST_FILE}" tofile="${TEST_MANIFEST_FILE}" overwrite="${overwrite.files}" />
+			<copy file="${LOCAL_SWF_FILE}" tofile="${TEST_SWF_FILE}" overwrite="${overwrite.files}" />
+			<echo>Ready to go...</echo>
+		</target>
+
+
+		<target name="create certificate">
+			<java jar="${ADT_JAR}" fork="true" failonerror="true" maxmemory="128m">
+				<arg value="-certificate" />
+				<arg value="-cn" />
+				<arg value="Net-A-Porter" />
+				<arg value="1024-RSA" />
+				<arg value="${CERTIFICATE_NAME}" />
+				<arg value="${PASSWORD}" />
+			</java>
+			<echo>You have a certificate</echo>
+		</target>
+
+		<target name="package">
+			<java jar="ucf.jar" fork="true" failonerror="true" maxmemory="128m">
+				<arg value="-package" />
+				<arg value="-storetype" />
+				<arg value="PKCS12" />
+				<arg value="-keystore" />
+				<arg value="${CERTIFICATE_NAME}" />
+				<arg value="-storepass" />
+				<arg value="${PASSWORD}" />
+				<arg value="${REMOTE_FILE}" />
+				<arg value="-C" />
+				<arg value="../bin-debug" />
+				<arg value="." />
+			</java>
+			<echo>Packaged and ready</echo>
+			<echo>${REMOTE_FILE}</echo>
+		</target>
+	</project>

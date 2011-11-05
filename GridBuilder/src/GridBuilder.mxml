@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:components="com.netaporter.cs5tools.productBrowser.components.*"
+					   width="250"
+					   height="200"
+					   showStatusBar="false"
+					   xmlns:external="flash.external.*" xmlns:gridbuilder="uk.co.onelittlerobot.gridbuilder.*" creationComplete="windowedapplication1_creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.csawlib.photoshop.Photoshop;
+			import com.adobe.photoshop.Application;
+			import com.adobe.photoshop.ArtLayer;
+			import com.adobe.photoshop.Direction;
+			import com.adobe.photoshop.Document;
+			import com.adobe.photoshop.LayerKind;
+			import com.adobe.photoshop.RGBColor;
+			import com.adobe.photoshop.Selection;
+			import com.adobe.photoshop.SelectionType;
+			
+			import mx.events.FlexEvent;
+			
+			protected var _app:Application=Photoshop.app;
+			
+			protected function handleOnMake(event:Event):void{
+				var newDocRef:Document = _app.documents.add(controls.totalWidth +'px', controls.totalHeight+'px', 72, 'New Layout');
+				makeGuides(newDocRef)
+				//_app.activeDocument
+			}
+			protected function handleOnUpdate(event:Event):void{
+				var newDocRef:Document = _app.activeDocument;
+				newDocRef.guides.removeAll();
+				
+				var info:ArtLayer =  newDocRef.artLayers.getByName('grid info');
+				info.remove();
+	
+				var x1:Number = 0;
+				var x2:Number = newDocRef.width as Number;
+				var x3:Number = newDocRef.width as Number;
+				var x4:Number = 0;
+				var y1:Number = 0;
+				var y2:Number = 0;
+				var y3:Number = newDocRef.height as Number;
+				var y4:Number = newDocRef.height as Number;
+
+				newDocRef.selection.select([[x1,y1],[x2,y2],[x3,y3],[x4,y4]],SelectionType.REPLACE,0,false);
+				var c:RGBColor = new RGBColor();
+				c.red=255;
+				c.green=255;
+				c.blue=255;
+				newDocRef.selection.fill(c)
+				makeGuides(newDocRef);
+				
+			}
+
+			protected function makeGuides(doc:Document):void{
+				var pos:String;
+				var old_x:Number=0;
+				var old_y:Number=0;				
+				for(var i:int=0;i<controls.hPositions.length;i++){
+					pos = controls.hPositions.getItemAt(i) + 'px'
+					doc.guides.add(Direction.VERTICAL, pos);
+					var x1:Number = old_x;
+					var x2:Number = controls.hPositions.getItemAt(i) as Number;
+					var x3:Number = controls.hPositions.getItemAt(i) as Number;
+					var x4:Number = old_x;
+					var y1:Number = old_y;
+					var y2:Number = old_y;
+					var y3:Number = controls.totalHeight;
+					var y4:Number = controls.totalHeight;
+					old_x = controls.hPositions.getItemAt(i) as Number;
+					doc.selection.select([[x1,y1],[x2,y2],[x3,y3],[x4,y4]],SelectionType.REPLACE,0,false);
+					
+					var c:RGBColor = new RGBColor();
+					c.red=200;
+					c.green=200;
+					c.blue=200;
+					if(i==0){
+						c.red=255;
+						c.green=255;
+						c.blue=255;
+					} else if(i==controls.hPositions.length){
+						c.red=50;
+						c.green=50;
+						c.blue=50;
+					}else if (i % 2 == 0) {
+						c.red=50;
+						c.green=50;
+						c.blue=50;
+					} else {
+						c.red=200;
+						c.green=200;
+						c.blue=200;
+					}
+					doc.selection.fill(c)
+				}
+				if(controls.useVerticalGrid){
+					for(i=0;i<controls.vPositions.length;i++){
+						pos = controls.vPositions.getItemAt(i) + 'px'
+						doc.guides.add(Direction.HORIZONTAL, pos);
+					}
+				}
+				
+				var info:ArtLayer = doc.artLayers.add();
+				info.name = 'grid info';
+				info.kind = LayerKind.TEXT;
+				var outputText:String = ""
+				outputText += 'Width: '+ controls.totalWidth +'px' + '\n';
+				outputText += 'Gutter: '+ controls.gridGutter +'px'+ '\n';
+				outputText += 'Columns: '+ controls.gridColumns +'px'+ '\n';
+				outputText += 'Column Width: '+ controls.gridColumnWidth +'px'+ '\n';
+				outputText += 'Column Gap: '+ controls.gridGap +'px'+ '\n';
+				info.textItem.contents =outputText
+				info.textItem.position = ['10px','10px'];
+			}
+
+			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
+			{
+				controls.addEventListener(GridControls.MAKE, handleOnMake);
+				controls.addEventListener(GridControls.UPDATE, handleOnUpdate);
+				// TODO Auto-generated method stub
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<external:HostObject id="host">
+			
+		</external:HostObject>
+	</fx:Declarations>
+<gridbuilder:GridControls id="controls" />
+	
+</s:WindowedApplication>
